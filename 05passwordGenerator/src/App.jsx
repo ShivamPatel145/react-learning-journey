@@ -17,7 +17,7 @@ function App() {
     if(charAllowed) str += "!@#$%^&*()_+[]{}|;:,.<>?";
 
     for (let i = 0; i < length; i++) {
-      const char = Math.floor(Math.random() * str.length + 1);
+      const char = Math.floor(Math.random() * str.length);
       pass += str.charAt(char);
     }
     setPassword(pass);
@@ -36,58 +36,76 @@ function App() {
   }, [length, numberAllowed, charAllowed]);
 
   return (
-    <div className="w-full max-w-md mx-auto shadow-md rounded-lg px-4 py-3 my-8 bg-gray-800 text-orange-500">
-      <h1 className="text-white text-center my-3">Password Generator</h1>
-      <div className="flex shadow rounded-lg overflow-hidden mb-4">
-        <input 
-        type="text" 
-        value={password}
-        className="outline-none w-full py-1 px-3"
-        placeholder="Password"
-        readOnly
-        ref={passwordRef}
-        />
-        <button 
-        onClick={copyPasswordToClipboard}
-        className="outline-none bg-blue-700 text-white px-3 py-0.5 shrink-0 cursor-pointer"
-        >Copy</button>
-      </div>
-      <div
-      className="flex text-sm gap-x-2"
-      >
-        <div className="flex items-center gap-x-1">
-          <input 
-          type="range" 
-          min={8}
-          max={100}
-          value={length}
-          className="cursor-pointer"
-          onChange={(e) => setLength(e.target.value)}
-          name="" 
-          id="" />
-          <label htmlFor="length">Length: {length}</label>
+    <div className="min-h-screen bg-gray-50 flex items-center justify-center p-6">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+        <h1 className="text-2xl font-semibold text-gray-900 text-center mb-8">
+          Password Generator
+        </h1>
+        
+        <div className="mb-8">
+          <div className="flex rounded-md overflow-hidden border border-gray-300">
+            <input 
+            type="text" 
+            value={password}
+            className="flex-1 px-4 py-3 text-gray-900 font-mono text-sm bg-gray-50 border-none outline-none"
+            placeholder="Click generate to create password"
+            readOnly
+            ref={passwordRef}
+            />
+            <button 
+            onClick={copyPasswordToClipboard}
+            className="px-4 py-3 bg-gray-900 hover:bg-gray-800 text-white text-sm font-medium transition-colors duration-150"
+            >
+              Copy
+            </button>
+          </div>
         </div>
-        <div className="flex items-center gap-x-1">
-          <input 
-          type="checkbox"
-          defaultChecked={numberAllowed}
-          onChange={() => {
-            setNumberAllowed((prev) => !prev);
-          }}
-          name=""
-          id="" />
-          <label htmlFor="number">Numbers</label>
-        </div>
-        <div className="flex items-center gap-x-1">
-          <input 
-          type="checkbox"
-          defaultChecked={charAllowed}
-          onChange={() => {
-            setCharAllowed((prev) => !prev);
-          }}
-          name=""
-          id="" />
-          <label htmlFor="charInput">Characters</label>
+
+        <div className="space-y-6">
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <label className="text-sm font-medium text-gray-700">Length</label>
+              <span className="text-sm font-semibold text-gray-900 bg-gray-100 px-2 py-1 rounded">
+                {length}
+              </span>
+            </div>
+            <input 
+            type="range" 
+            min={8}
+            max={100}
+            value={length}
+            className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-gray-900"
+            onChange={(e) => setLength(e.target.value)}
+            />
+          </div>
+
+          <div className="space-y-3">
+            <div className="flex items-center">
+              <input 
+              type="checkbox"
+              id="numbers"
+              checked={numberAllowed}
+              onChange={() => setNumberAllowed((prev) => !prev)}
+              className="w-4 h-4 text-gray-900 bg-gray-100 border-gray-300 rounded focus:ring-gray-500"
+              />
+              <label htmlFor="numbers" className="ml-3 text-sm font-medium text-gray-700 cursor-pointer">
+                Include numbers
+              </label>
+            </div>
+
+            <div className="flex items-center">
+              <input 
+              type="checkbox"
+              id="symbols"
+              checked={charAllowed}
+              onChange={() => setCharAllowed((prev) => !prev)}
+              className="w-4 h-4 text-gray-900 bg-gray-100 border-gray-300 rounded focus:ring-gray-500"
+              />
+              <label htmlFor="symbols" className="ml-3 text-sm font-medium text-gray-700 cursor-pointer">
+                Include symbols
+              </label>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -95,4 +113,3 @@ function App() {
 }
 
 export default App;
- 
